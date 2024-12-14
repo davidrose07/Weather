@@ -8,6 +8,8 @@ import datetime as dt
 import requests
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut
+import os
+
 
 
 class Controller(QMainWindow, Ui_MainWindow):    
@@ -237,7 +239,8 @@ class Controller(QMainWindow, Ui_MainWindow):
             'icon': response['weather'][0]['icon']
         }
         
-        self.icon_path = f'icons/{self.weather["icon"]}.png'
+        self.icon_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'icons', f'{self.weather["icon"]}.png')
+
         self.icon_pixmap =QPixmap(self.icon_path)
 
         self.wind = response['wind']['speed']
