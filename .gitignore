@@ -1,1 +1,17 @@
 __pycache__/
+.pyc
+
+
+#Api_key
+key/
+
+# Distribution / packaging
+.Python
+env/
+venv/
+ENV/
+build/
+dist/
+linux_setup_scripts/
+*.egg-info/
+.eggs/
