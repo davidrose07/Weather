@@ -3,7 +3,7 @@
 from .view import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QStandardItem, QStandardItemModel, QPixmap
-from PyQt5.QtCore import QTimer, QTime
+from PyQt5.QtCore import QTimer, QTime, QSettings
 import datetime as dt
 import requests
 from geopy.geocoders import Nominatim
@@ -22,7 +22,15 @@ class Controller(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
 
-        self.city = {'default': 'Judsonia', 'geo': None}
+        #Get default location
+        self.settings = QSettings("Prompt", "WeatherApp")
+        saved_default = self.settings.value("default_city", type=str)
+        if not saved_default:
+            saved_default = self.ask_for_default_city()
+            if saved_default:
+                self.settings.setValue("default_city", saved_default)
+
+        self.city = {'default': saved_default or 'Judsonia, AR', 'geo': None}
         self.word_list = []
         self.allow_suggestions = False  # Control suggestions
         self.isTranslucent = True
@@ -49,6 +57,37 @@ class Controller(QMainWindow, Ui_MainWindow):
         self.display_weather()
         self.show() 
 
+    def ask_for_default_city(self) -> str:
+        """
+        Initial Prompt to saved default city
+        :param: None
+        :return: str
+        """
+        text, ok = QInputDialog.getText(
+            self,
+            "Default Location",
+            "Enter your default city (ex: Omaha, NE):",
+            QLineEdit.Normal,
+            "Judsonia"
+        )
+        if not ok:
+            return ""
+        return text.strip()
+    
+    def change_default_city(self) -> None:
+        text, ok = QInputDialog.getText(
+            self,
+            "Change Default Location",
+            "Enter new default city:",
+            QLineEdit.Normal,
+            self.settings.value("default_city", "Judsonia")
+        )
+
+        if ok and text.strip():
+            new_city = text.strip()
+            self.settings.setValue("default_city", new_city)
+            self.city['default'] = new_city
+            QMessageBox.information(self, "Updated", f"Default city set to {new_city}")
 
     def setup_actions(self)-> None:
         '''
@@ -59,6 +98,7 @@ class Controller(QMainWindow, Ui_MainWindow):
         self.lineEdit.textChanged.connect(self.on_text_changed)
         self.listView.doubleClicked.connect(self.display_selected_city_weather)
         self.actionChange_Location.triggered.connect(self.toggle_city_editing)
+        self.actionChange_Default.triggered.connect(self.change_default_city)
 
         self.actionHeavyTranslucency.triggered.connect(lambda: self.set_translucency(True))
         self.actionLightTranslucency.triggered.connect(lambda: self.set_translucency(False))
