@@ -34,7 +34,7 @@ The **Weather Application** is a Python-based project that provides weather upda
    
 
 3. **Add Your API Key**
-   Create a file named `api_key.txt` in the `src` folder and paste your OpenWeatherMap API key into it.
+   Create a file named `api_key.txt` in the `key` folder and paste your OpenWeatherMap API key into it.
 
 4. **Run the Application**
    python src/main.py
