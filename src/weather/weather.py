@@ -21,6 +21,7 @@ class Controller(QMainWindow, Ui_MainWindow):
         '''
         super().__init__()
         self.setupUi(self)
+        self.set_translucency(True)
 
         #Get default location
         self.settings = QSettings("Prompt", "WeatherApp")
@@ -35,9 +36,7 @@ class Controller(QMainWindow, Ui_MainWindow):
         self.allow_suggestions = False  # Control suggestions
         self.isTranslucent = True
         self.API_KEY = self.get_api_key()
-        # If you decide to hard code your API_KEY
-        #self.API_KEY = "426dc8e49c84d6c1ac6b39c3dcdd78f6"
-
+        
         # Timer for current time update
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_current_time)
@@ -112,6 +111,7 @@ class Controller(QMainWindow, Ui_MainWindow):
 
         # Apply to main window
         self.setAttribute(Qt.WA_TranslucentBackground, enable)
+        self.setAttribute(Qt.WA_NoSystemBackground, enable)
 
         # Apply to all child widgets
         for widget in self.findChildren(QWidget):
