@@ -1,2 +1,3 @@
 include src/icons/*
 include README.md
+recursive-include assets *.desktop *.png *.svg

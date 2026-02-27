@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Weather
+Comment=Launch the Weather GUI
+Exec=weather
+Terminal=false
+Categories=Utility;Application;
+StartupNotify=true
+Icon=/home/david/.local/share/icons/weather.png

@@ -24,8 +24,12 @@ setup(
     ],
     python_requires=">=3.6",
     entry_points={
-        "console_scripts": [
+        "gui_scripts": [                 # <- changed from console_scripts
             "weather=weather.main:main",
         ],
     },
+    data_files=[
+        ("share/applications", ["assets/weather.desktop"]),
+        ("share/icons/hicolor/256x256/apps", ["assets/weather.png"]),
+    ],
 )
