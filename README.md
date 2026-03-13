@@ -24,7 +24,7 @@ The **Weather Application** is a Python-based project that provides weather upda
 ### Steps
 
 1. **Clone the Repository**
-   git clone https://github.com/yourusername/Weather.git
+   git clone https://github.com/davidrose07/Weather.git
    cd Weather
    
 
